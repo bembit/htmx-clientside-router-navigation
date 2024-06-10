@@ -12,10 +12,10 @@
 <body>
 
 	<header>
-		<a hx-get="/home.html" hx-ext="router" hx-target="#main">Home</a>
-		<a hx-get="/about.html" hx-ext="router" hx-target="#main">About</a>
-		<a hx-get="/contact.html" hx-ext="router" hx-target="#main">Contact</a>
-		<a hx-get="/pricing.html" hx-ext="router" hx-target="#main">Pricing</a>
+		<a hx-get="/home.html" hx-ext="router" data-page-title="Home" hx-target="#main">Home</a>
+		<a hx-get="/about.html" hx-ext="router" data-page-title="About" hx-target="#main">About</a>
+		<a hx-get="/contact.html" hx-ext="router" data-page-title="Contact" hx-target="#main">Contact</a>
+		<a hx-get="/pricing.html" hx-ext="router" data-page-title="Pricing" hx-target="#main">Pricing</a>
 	</header>
 
 	<main id="main" class="container" hx-get="/home.html" hx-trigger="load">

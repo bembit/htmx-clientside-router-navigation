@@ -7,10 +7,13 @@
                 const url = target.getAttribute('hx-get');
                 // keep track of where to render, return
                 const targetSelector = target.getAttribute('hx-target');
+                const pageTitle = target.getAttribute('data-page-title') || document.title;
+
                 if (url) {
                     console.log(target);
                     console.log('url', url);
                     history.pushState({url: url, target: targetSelector}, "", url);
+                    document.title = pageTitle;
                 }
             }
         }
