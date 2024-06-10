@@ -4,16 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HTMX routing</title>
-<script src="https://unpkg.com/htmx.org@2.0.0-alpha1/dist/htmx.min.js" defer></script>
+<!-- <script src="https://unpkg.com/htmx.org@2.0.0-alpha1/dist/htmx.min.js" defer></script> -->
+<script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous" defer></script>
+<script src="/hx-router/basic-router.js" defer></script>
 <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
 
 	<header>
-		<a hx-get="/home.html" hx-push-url="true" hx-target="#main">Home</a>
-		<a hx-get="/about.html" hx-push-url="true" hx-target="#main">About</a>
-		<a hx-get="/contact.html" hx-push-url="true" hx-target="#main">Contact</a>
-		<a hx-get="/pricing.html" hx-push-url="true" hx-target="#main">Pricing</a>
+		<a hx-get="/home.html" hx-ext="router" hx-target="#main">Home</a>
+		<a hx-get="/about.html" hx-ext="router" hx-target="#main">About</a>
+		<a hx-get="/contact.html" hx-ext="router" hx-target="#main">Contact</a>
+		<a hx-get="/pricing.html" hx-ext="router" hx-target="#main">Pricing</a>
 	</header>
 
 	<main id="main" class="container" hx-get="/home.html" hx-trigger="load">
