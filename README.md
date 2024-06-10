@@ -1,20 +1,12 @@
-## HTMX Client-Side Routing
+## hx-push-url
 
-This is a simple library for client-side routing with [HTMX](https://htmx.org/).
+```HTML
+<a hx-get="/home.html" hx-push-url="true" hx-target="#main">Home</a>
+```
 
-More like a navigation tbh.
-
-There are X branches with different features and different use cases.
-- None of them use localstorage, except the first 1.hx-push-url="true" example.
-
-### Why?
-
-- Built for my specific edge use cases, purely for client-side.
-- Managing popstate render.
-
-It's quite nice to have simple SPA like static sites with HTMX. No dealing with fetch, render. All I was missing is a bit of "routing" to handle the URLs, popstate. Don't leave the page accidentally.
-
-### How?
-
-- Added a small demo.
-- And some missing features of htmx, like neon colors and gradients. 
+- All pages/components are in the same root folder.
+- It uses local storage.
+- Can be navigated by clicking the links.
+- Can NOT be navigated properly by using the back and forward buttons of the browser.
+- Breaks on refresh, page reload (obviously).
+- Not implemented for this.
