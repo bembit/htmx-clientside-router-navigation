@@ -24,14 +24,27 @@
                 // the anchor with the hx-ext="router" attribute
                 const target = evt.detail.elt;
                 var url = target.getAttribute('hx-get');
+                
                 // keep track of where to render, return
                 const targetSelector = target.getAttribute('hx-target');
                 const pageTitle = target.getAttribute('data-page-title') || document.title;
 
                 url = sanitizeURL(url);
-                if (url) {
+
+                const allowedPaths = target.getAttribute('hx-ext') === 'router' ? [target.getAttribute('hx-get')] : [];
+
+                console.log('allowedPaths', allowedPaths);
+                
+                if (!url.includes(allowedPaths)) {
+                    console.log(url)
+                    console.log('not allowed');
+                    return false;
+                }
+
+                if (url.includes(allowedPaths)) {
                     console.log(target);
                     console.log('url', url);
+                    console.log('allowedPaths', allowedPaths);
                     history.pushState({url: url, target: targetSelector}, "", url);
                     document.title = pageTitle;
                 }
