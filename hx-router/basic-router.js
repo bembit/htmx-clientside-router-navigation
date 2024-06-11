@@ -48,5 +48,39 @@
             history.replaceState({url: '/', target: 'body'}, "", '/');
         }
     }
+    
+    window.addEventListener('beforeunload', function () {
+        console.log('Page is about to be refreshed or closed');
+        const currentPath = window.location.pathname;
+        const currentTitle = document.title;
+        const fullContent = document.documentElement;
+        sessionStorage.setItem('currentPath', currentPath);
+        sessionStorage.setItem('currentTitle', currentTitle);
+        sessionStorage.setItem('fullContent', fullContent);
+        console.log(sessionStorage);
+        console.log('fullContent', fullContent);
+    });
+
+    window.addEventListener('load', function() {
+        if (sessionStorage.getItem('currentPath')) {
+            console.log('Page was reloaded');
+            const currentPath = sessionStorage.getItem('currentPath');
+            const currentTitle = sessionStorage.getItem('currentTitle');
+            const fullContent = sessionStorage.getItem('fullContent');
+
+            if (currentPath && fullContent) {
+                window.history.replaceState({url: currentPath, target: 'html', title: currentTitle}, currentTitle, currentPath);
+                document.documentElement = fullContent;
+            }
+
+            sessionStorage.removeItem('currentPath');
+            sessionStorage.removeItem('currentTitle');
+            sessionStorage.removeItem('fullContent');
+            console.log(sessionStorage);
+        } else {
+            console.log('First load or internal navigation');
+        }
+    });
+
     window.addEventListener('popstate', handlePopState);
 })();
