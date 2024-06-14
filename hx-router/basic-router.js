@@ -26,8 +26,5 @@
                 htmx.ajax('GET', event.state.url, { target: target });
             } 
         }
-        if (window.location.pathname === '/' || window.location.pathname === '' || window.location.pathname === '/index' || window.location.pathname === '/index.html') {
-            history.replaceState({ url: '/', target: 'body' }, "", '/');
-        }
     });
 })();
