@@ -2,7 +2,7 @@
     const extractedRoutes = Array.from(document.querySelectorAll('a[hx-ext="router"]')).map(anchor => anchor.getAttribute('hx-get'));
     const baseRoutes = ['/'];
     const validRoutes = [...baseRoutes, ...extractedRoutes];
-    console.log('validRoutes', validRoutes);
+    // console.log('validRoutes', validRoutes);
     htmx.defineExtension('router', {
         onEvent: function(name, evt) {
             if (name === "htmx:configRequest") {
@@ -12,8 +12,8 @@
                 const pageTitle = target.getAttribute('data-page-title') || document.title;
 
                 if (url && validRoutes.includes(url)) {
-                    console.log(target);
-                    console.log('url', url);
+                    // console.log(target);
+                    // console.log('url', url);
                     history.pushState({ url: url, target: targetSelector }, "", "/");
                     document.title = pageTitle;
                 }
