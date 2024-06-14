@@ -1,6 +1,7 @@
 (function() {
-    const validRoutes = Array.from(document.querySelectorAll('a[hx-ext="router"]')).map(anchor => anchor.getAttribute('hx-get'));
-    validRoutes.push('/');
+    const extractedRoutes = Array.from(document.querySelectorAll('a[hx-ext="router"]')).map(anchor => anchor.getAttribute('hx-get'));
+    const baseRoutes = ['/'];
+    const validRoutes = [...baseRoutes, ...extractedRoutes];
     console.log('validRoutes', validRoutes);
     htmx.defineExtension('router', {
         onEvent: function(name, evt) {
@@ -27,4 +28,7 @@
             } 
         }
     });
+    if (window.location.pathname === '/' || window.location.pathname === '' || window.location.pathname === '/index' || window.location.pathname === '/index.html') {
+        history.replaceState({url: '/', target: 'body'}, "", '/');
+    }
 })();
