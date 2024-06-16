@@ -1,19 +1,17 @@
 (function() {
+    console.log('router-url.js loaded, initial routes from index added');
     var validRoutes = updateRoutes();
+    
     function updateRoutes() {
-        var extractedRoutes = Array.from(document.querySelectorAll('a[hx-ext="router"]')).map(anchor => anchor.getAttribute('hx-get'));
-        var baseRoutes = ['/'];
-        var validRoutes = [...baseRoutes, ...extractedRoutes];
+        extractedRoutes = Array.from(document.querySelectorAll('a[hx-ext="router"]')).map(anchor => anchor.getAttribute('hx-get'));
+        baseRoutes = ['/'];
+        validRoutes = [...new Set([...baseRoutes, ...extractedRoutes])];
         console.log('updateRoutes function', validRoutes);
         return validRoutes;
     }
-    function checkForDuplicates(array) {
-        return array.filter((value, index) => array.indexOf(value) === index);
-    }
-    var validRoutes = checkForDuplicates(validRoutes);
-    console.log('last one after duplicate check', validRoutes);
-    // window.addEventListener('htmx:afterSettle', updateRoutes, console.log('this one from the afterSettle event',validRoutes));
-    window.addEventListener('htmx:afterSettle', updateRoutes, console.log('this one from the afterSettle event',validRoutes));
+    
+    window.addEventListener('htmx:afterSettle', updateRoutes, console.log('afterSettle event reruns updateRoutes'));
+
     htmx.defineExtension('router', {
         onEvent: function(name, evt) {
             if (name === "htmx:configRequest") {
@@ -29,6 +27,7 @@
             }
         }
     });
+
     window.addEventListener('popstate', function(event) {
         if (event.state && event.state.url) {
             if (validRoutes.includes(event.state.url)) {
@@ -36,7 +35,9 @@
             } 
         }
     });
+
     if (window.location.pathname === '/' || window.location.pathname === '' || window.location.pathname === '/index' || window.location.pathname === '/index.html') {
         history.replaceState({url: '/', target: 'body'}, "", '/');
     }
+
 })();
