@@ -2,7 +2,6 @@
     var validRoutes = [];
     var baseRoutes = ['/'];
     var origin = window.location.origin;
-
     function checkURL(url) {
         try {
             var parsedUrl = new URL(url, origin);
@@ -54,11 +53,14 @@
                 var target = evt.detail.elt;
                 var url = target.getAttribute('hx-get');
                 var targetSelector = target.getAttribute('hx-target');
-                var pageTitle = target.getAttribute('data-page-title') || document.title;
+                // do I even want pageTitle in the url based routing?
+                var pageTitle = target.getAttribute('data-page-title');
+                console.log(pageTitle);
                 if (url && (url !== window.location.pathname) && validRoutes.includes(url)) {
                     var state = { url: url, target: targetSelector };
                     console.log(state, pageTitle, url);
                     pushState(state, pageTitle, url);
+                    document.title = pageTitle;
                 }
             }
         }
