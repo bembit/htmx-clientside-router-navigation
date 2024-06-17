@@ -7,11 +7,24 @@
         try {
             var parsedUrl = new URL(url, origin);
             return parsedUrl.origin === origin && parsedUrl.pathname.startsWith('/');
-        } catch (e) {
+        } catch (error) {
             return false;
         }
     }
-
+    // history event state
+    function checkState(state) {
+        return state && typeof state === 'object' && checkURL(state.url) && typeof state.target === 'string';
+    }
+    function pushState(state, title, url) {
+        if (checkState(state) && validRoutes.includes(url)) {
+            history.pushState(state, title, url);
+        }
+    }
+    function replaceState(state, title, url) {
+        if (checkState(state) && validRoutes.includes(url)) {
+            history.replaceState(state, title, url);
+        }
+    }
     function updateRoutes() {
         extractedRoutes = Array.from(document.querySelectorAll('a[hx-ext="router"]'))
             .map(anchor => anchor.getAttribute('hx-get'))
@@ -22,10 +35,17 @@
     }
     window.addEventListener('htmx:afterSettle', function() {
         updateRoutes();
+        console.log(validRoutes);
     });
     // handle page refresh without extra htmx comps to be settled 
     window.addEventListener('DOMContentLoaded', function() {
         updateRoutes();
+        console.log(validRoutes);
+        // handle the initial page here.
+        var initialPath = window.location.pathname;
+        if (['/', '', '/index', '/index.html'].includes(initialPath)) {
+            replaceState({ url: '/', target: 'body' }, "", '/');
+        }
     });
     
     htmx.defineExtension('router', {
@@ -36,23 +56,18 @@
                 var targetSelector = target.getAttribute('hx-target');
                 var pageTitle = target.getAttribute('data-page-title') || document.title;
                 if (url && (url !== window.location.pathname) && validRoutes.includes(url)) {
-                    history.pushState({ url: url, target: targetSelector }, "", url);
-                    document.title = pageTitle;
+                    var state = { url: url, target: targetSelector };
+                    console.log(state, pageTitle, url);
+                    pushState(state, pageTitle, url);
                 }
             }
         }
     });
 
     window.addEventListener('popstate', function(event) {
-        if (event.state && event.state.url) {
-            if (validRoutes.includes(event.state.url)) {
-                htmx.ajax('GET', event.state.url);
-            } 
-        }
+        if (checkState(event.state) && validRoutes.includes(event.state.url)) {
+            htmx.ajax('GET', event.state.url);
+        } 
     });
-
-    if (window.location.pathname === '/' || window.location.pathname === '' || window.location.pathname === '/index' || window.location.pathname === '/index.html') {
-        history.replaceState({url: '/', target: 'body'}, "", '/');
-    }
 
 })();
