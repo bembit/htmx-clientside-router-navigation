@@ -1,7 +1,14 @@
 (function() {
-    var extractedRoutes = Array.from(document.querySelectorAll('a[hx-ext="router"]')).map(anchor => anchor.getAttribute('hx-get'));
-    var baseRoutes = ['/'];
-    var validRoutes = [...baseRoutes, ...extractedRoutes];
+    var validRoutes = [];
+    function updateRoutes() {
+        extractedRoutes = Array.from(document.querySelectorAll('a[hx-ext="router"]')).map(anchor => anchor.getAttribute('hx-get'));
+        baseRoutes = ['/'];
+        validRoutes = [...new Set([...baseRoutes, ...extractedRoutes])];
+        console.log('updateRoutes function', validRoutes);
+        return validRoutes;
+    }
+    window.addEventListener('htmx:afterSettle', updateRoutes);
+
     htmx.defineExtension('router', {
         onEvent: function(name, evt) {
             if (name === "htmx:configRequest") {
@@ -9,13 +16,16 @@
                 var url = target.getAttribute('hx-get');
                 var targetSelector = target.getAttribute('hx-target');
                 var pageTitle = target.getAttribute('data-page-title') || document.title;
-                if (url && validRoutes.includes(url)) {
+                if (url && (url !== history.state.url) && validRoutes.includes(url)) {
+                    console.log(url);
+                    console.log(history.state.url)
                     history.pushState({ url: url, target: targetSelector }, "", "/");
                     document.title = pageTitle;
                 }
             }
         }
     });
+    
     window.addEventListener('popstate', function(event) {
         if (event.state && event.state.url) {
             var target = event.state.target;
@@ -24,6 +34,7 @@
             } 
         }
     });
+
     if (window.location.pathname === '/' || window.location.pathname === '' || window.location.pathname === '/index' || window.location.pathname === '/index.html') {
         history.replaceState({url: '/', target: 'body'}, "", '/');
     }
