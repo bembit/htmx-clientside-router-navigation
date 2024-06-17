@@ -1,6 +1,7 @@
 (function() {
     console.log('router-url.js loaded, initial routes from index added');
-    var validRoutes = updateRoutes();
+    // var validRoutes = updateRoutes();
+    var validRoutes = [];
     
     function updateRoutes() {
         extractedRoutes = Array.from(document.querySelectorAll('a[hx-ext="router"]')).map(anchor => anchor.getAttribute('hx-get'));
