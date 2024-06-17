@@ -44,26 +44,27 @@
             replaceState({ url: '/', target: 'body' }, "", '/');
         }
     });
-    
+
     htmx.defineExtension('router', {
         onEvent: function(name, evt) {
             if (name === "htmx:configRequest") {
                 var target = evt.detail.elt;
                 var url = target.getAttribute('hx-get');
                 var targetSelector = target.getAttribute('hx-target');
-                var pageTitle = target.getAttribute('data-page-title');
+                var pageTitle = target.getAttribute('data-page-title') || document.title;
                 if (url && (url !== window.location.pathname) && validRoutes.includes(url)) {
                     var state = { url: url, target: targetSelector };
-                    pushState(state, pageTitle, url);
+                    pushState(state, pageTitle, "/");
                     document.title = pageTitle;
                 }
             }
         }
     });
-
+    
     window.addEventListener('popstate', function(event) {
+        var target = event.state.target;
         if (checkState(event.state) && validRoutes.includes(event.state.url)) {
-            htmx.ajax('GET', event.state.url);
+            htmx.ajax('GET', event.state.url, { target: target });
         } 
     });
 
