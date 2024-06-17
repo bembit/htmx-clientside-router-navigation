@@ -1,8 +1,22 @@
 (function() {
     var validRoutes = [];
+    var baseRoutes = ['/'];
+    var origin = window.location.origin;
+
+    function checkURL(url) {
+        try {
+            var parsedUrl = new URL(url, origin);
+            return parsedUrl.origin === origin && parsedUrl.pathname.startsWith('/');
+        } catch (e) {
+            return false;
+        }
+    }
+
     function updateRoutes() {
-        extractedRoutes = Array.from(document.querySelectorAll('a[hx-ext="router"]')).map(anchor => anchor.getAttribute('hx-get'));
-        baseRoutes = ['/'];
+        extractedRoutes = Array.from(document.querySelectorAll('a[hx-ext="router"]'))
+            .map(anchor => anchor.getAttribute('hx-get'))
+            .filter(url => checkURL(url));
+            
         validRoutes = [...new Set([...baseRoutes, ...extractedRoutes])];
         return validRoutes;
     }
