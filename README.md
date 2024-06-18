@@ -6,6 +6,7 @@
 - Managing popstate.
 - Don't leave the page by pressing the back button.
 - Survive a full page refresh.
+- No local storage, no session storage.
 
 ### How
 

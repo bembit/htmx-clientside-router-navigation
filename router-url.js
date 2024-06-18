@@ -51,7 +51,7 @@
                 var target = evt.detail.elt;
                 var url = target.getAttribute('hx-get');
                 var targetSelector = target.getAttribute('hx-target');
-                var pageTitle = target.getAttribute('data-page-title');
+                var pageTitle = target.getAttribute('data-page-title') || document.title;
                 if (url && (url !== window.location.pathname) && validRoutes.includes(url)) {
                     var state = { url: url, target: targetSelector };
                     pushState(state, pageTitle, url);
