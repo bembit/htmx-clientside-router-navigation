@@ -34,11 +34,13 @@
     }
     window.addEventListener('htmx:afterSettle', function() {
         updateRoutes();
+        console.log(validRoutes);
     });
     // handle page refresh without extra htmx comps to be settled 
     window.addEventListener('DOMContentLoaded', function() {
         updateRoutes();
-        // handle the initial paths here.
+        console.log(validRoutes);
+        // handle the initial page here.
         var initialPath = window.location.pathname;
         if (['/', '', '/index', '/index.html'].includes(initialPath)) {
             replaceState({ url: '/', target: 'body' }, "", '/');
@@ -54,6 +56,7 @@
                 var pageTitle = target.getAttribute('data-page-title') || document.title;
                 if (url && (url !== window.location.pathname) && validRoutes.includes(url)) {
                     var state = { url: url, target: targetSelector };
+                    console.log(state, pageTitle, url);
                     pushState(state, pageTitle, "/");
                     document.title = pageTitle;
                 }

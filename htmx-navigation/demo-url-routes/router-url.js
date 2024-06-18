@@ -34,11 +34,13 @@
     }
     window.addEventListener('htmx:afterSettle', function() {
         updateRoutes();
+        console.log(validRoutes);
     });
     // handle page refresh without extra htmx comps to be settled 
     window.addEventListener('DOMContentLoaded', function() {
         updateRoutes();
-        // handle the initial paths here.
+        console.log(validRoutes);
+        // handle the initial page here.
         var initialPath = window.location.pathname;
         if (['/', '', '/index', '/index.html'].includes(initialPath)) {
             replaceState({ url: '/', target: 'body' }, "", '/');
@@ -51,9 +53,12 @@
                 var target = evt.detail.elt;
                 var url = target.getAttribute('hx-get');
                 var targetSelector = target.getAttribute('hx-target');
+                // do I even want pageTitle in the url based routing?
                 var pageTitle = target.getAttribute('data-page-title');
+                console.log(pageTitle);
                 if (url && (url !== window.location.pathname) && validRoutes.includes(url)) {
                     var state = { url: url, target: targetSelector };
+                    console.log(state, pageTitle, url);
                     pushState(state, pageTitle, url);
                     document.title = pageTitle;
                 }
