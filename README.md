@@ -1,8 +1,10 @@
-## HTMX Client-Side Routing / Navigation
+## HTMX Client-Side Routing / Navigation prototype
 
 ### Simple client-side navigation with [HTMX](https://htmx.org/).
 
-- Built for my specific edge cases, purely for client-side HTMX to be used for landing pages and so on.
+#### Might clean up and finish. 3.774% chance.
+
+- Built for my specific edge cases, purely for client-side HTMX to be used for landing pages, smaller static sites.
 - Managing popstate.
 - Don't leave the page by pressing the back button.
 - Survive a full page refresh.
@@ -10,13 +12,13 @@
 
 ### How
 
-- Checks for anchors with the attribute hx-ext="router" on DOMcontentload.
+- Checks for unique anchors with the attribute hx-ext="router" on DOMcontentload.
 - And on htmx:afterSettle in case a component is loaded that has more anchors. 
 
-### Demos: 
+<!-- ### Demos: 
 URL: https://url-xxxxxx-htmx-navigation-demo.pages.dev/
 
-NO URL: https://nourl-xxxxxx-htmx-navigation-demo.pages.dev/
+NO URL: https://nourl-xxxxxx-htmx-navigation-demo.pages.dev/ -->
 
 ### Setup
 
@@ -44,6 +46,6 @@ NO URL: https://nourl-xxxxxx-htmx-navigation-demo.pages.dev/
 
 ### router-url.js
 - Adds the full url.
-- No cache, state, storage.
-- Setup needs full HTML pages to handle fallback.
+- No state, storage.
+- Setup needs full HTML pages to handle refresh fallback.
 - Swapping components with hx-select.
