@@ -2,7 +2,9 @@
 
 ### Simple client-side navigation with [HTMX](https://htmx.org/).
 
-- Built for my specific edge cases, purely for client-side HTMX to be used for landing pages and so on.
+#### Might clean up and finish. 3.774% chance.
+
+- Built for my specific edge cases, purely for client-side HTMX to be used for landing pages, smaller static sites.
 - Managing popstate.
 - Don't leave the page by pressing the back button.
 - Survive a full page refresh.
